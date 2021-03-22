@@ -1,0 +1,8 @@
+<div *ngIf="flight">
+    <h2>{{flight.source | uppercase}} to {{flight.dest | uppercase}} Details</h2>
+    <div><span>id: </span>{{flight.id}}</div>
+    <div>
+      <label for="flight-name">Flight name: </label>
+      <input id="flight-name" [(ngModel)]="flight.price" placeholder="name">
+    </div>
+    </div>
