@@ -37,14 +37,15 @@ export class FlightDetailComponent implements OnInit {
       .subscribe(flight => this.flight = flight);
   }
 
-  private newCard(): void {
-    
-
-  }
-
   purchaseFlight(): void {
-    if(this.cookieService.get(SpreedlyService.PAYMENT_COOKIE)) {
+    if(!this.flight) {
+      console.warn('no flight selected')
+      return
+    }
+    const paymentToken = this.cookieService.get(SpreedlyService.PAYMENT_COOKIE)
+    if(paymentToken) {
       console.log('we have a payment method')
+      this.spreedlyService.purchaseFlight(paymentToken, this.flight.id)
       return
     }
 

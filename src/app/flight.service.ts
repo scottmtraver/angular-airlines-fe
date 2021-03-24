@@ -1,31 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Flight } from './flight';
-import { FLIGHTS } from './seed-flights';
 import { Observable, of } from 'rxjs';
+import { find, tap } from 'rxjs/operators'
 import { MessageService } from './message.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlightService {
 
-  constructor(private messageService: MessageService) { }
+  private flightsUrl = 'http://airlinesapi:3000/flights';  // URL to web api
+  private flightsCache: Flight[] = []
 
-  // getFlights(): Flight[] {
-  //   return FLIGHTS;
-  // }
+  constructor(
+    private http: HttpClient,
+    ) { }
 
   getFlights(): Observable<Flight[]> {
-    const flights = of(FLIGHTS);
-    this.messageService.add('flightService: fetched flights');
-    return flights;
+    const observe =  this.http.get<Flight[]>(this.flightsUrl).pipe(tap(arr => this.flightsCache = arr))
+    return observe
   }
 
-  getFlight(id: number): Observable<Flight> {
-    // Error handling will be added in the next step of the tutorial.
-    const flight = FLIGHTS.find(h => h.id === id) as Flight;
-    this.messageService.add(`FlightService: fetched flight id=${id}`);
-    return of(flight);
+  getFlight(id: number): Observable<Flight | undefined> {
+    return of(this.flightsCache.find(x => x.id == id))
   }
-
 }

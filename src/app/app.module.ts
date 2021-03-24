@@ -10,6 +10,8 @@ import { FlightDetailComponent } from './flight-detail/flight-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { CookieService } from 'ngx-cookie-service';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,8 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
