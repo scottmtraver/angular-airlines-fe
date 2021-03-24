@@ -8,6 +8,7 @@ import { FlightsComponent } from './flights/flights.component';
 import { FormsModule } from '@angular/forms';
 import { FlightDetailComponent } from './flight-detail/flight-detail.component';
 import { MessagesComponent } from './messages/messages.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { MessagesComponent } from './messages/messages.component';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
