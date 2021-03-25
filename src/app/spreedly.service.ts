@@ -12,6 +12,7 @@ export class SpreedlyService {
 
   static PAYMENT_COOKIE = 'PAYMENTCOOKIE'
   private purchaseUrl = 'http://airlinesapi:3000/purchase';  // URL to web api
+  private passthroughUrl = 'http://airlinesapi:3000/passthrough';  // URL to web api
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -22,44 +23,51 @@ export class SpreedlyService {
   ) { }
 
   addCard(flightInfo?: Flight): void {
-    if(!flightInfo) {
+    if (!flightInfo) {
       return
     }
-// @ts-ignore
-SpreedlyExpress.init("F2XV4gIvmoLo4VSOnyhAHFzLUgB", {
-  "amount": `${flightInfo.price}`,
-  // "company_name": `${flightInfo.source}`
-});
+    // @ts-ignore
+    SpreedlyExpress.init("F2XV4gIvmoLo4VSOnyhAHFzLUgB", {
+      "amount": `${flightInfo.price}`,
+      // "company_name": `${flightInfo.source}`
+    });
 
-// @ts-ignore
-SpreedlyExpress.onPaymentMethod((token: any, paymentMethod: any) => {
-  this.cookieService.set(SpreedlyService.PAYMENT_COOKIE, token)
-  // SUBMIT TO BACKEND
-});
+    // @ts-ignore
+    SpreedlyExpress.onPaymentMethod((token: any, paymentMethod: any) => {
+      this.cookieService.set(SpreedlyService.PAYMENT_COOKIE, token)
+      // SUBMIT TO BACKEND
+    });
 
-// @ts-ignore
-SpreedlyExpress.openView()
+    // @ts-ignore
+    SpreedlyExpress.openView()
   }
 
   purchaseFlight(token: string, flightId: number) {
-    const response =  this.http.post(this.purchaseUrl, { token: token, flightId: flightId }, this.httpOptions)
-    .pipe(
-      tap(_ => console.log('Purchased flighg')),
-      catchError(this.handleError<Flight>('purchaseFlight'))
-    ).subscribe()
-    debugger
+    const response = this.http.post(this.purchaseUrl, { token: token, flightId: flightId }, this.httpOptions)
+      .pipe(
+        tap(_ => console.log('Purchased flighg')),
+        catchError(this.handleError<Flight>('purchaseFlight'))
+      ).subscribe()
+    console.log('buying')
 
+  }
+  purchaseFlightThirdParty(token: string, flightId: number) {
+    const response = this.http.post(this.passthroughUrl, { token: token, flightId: flightId }, this.httpOptions)
+      .pipe(
+        tap(_ => console.log('Purchased flighg')),
+        catchError(this.handleError<Flight>('purchaseFlight'))
+      ).subscribe()
     console.log('buying')
 
   }
 
-private handleError<T>(operation = 'operation', result?: T) {
-  return (error: any): Observable<T> => {
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
 
-    console.error(error); // log to console instead
+      console.error(error); // log to console instead
 
-    // Let the app keep running by returning an empty result.
-    return of(result as T);
-  };
-}
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 }

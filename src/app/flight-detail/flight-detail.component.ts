@@ -53,6 +53,19 @@ export class FlightDetailComponent implements OnInit {
     this.spreedlyService.addCard(this.flight)
   }
 
+  purchaseThirdParty(): void {
+    if(!this.flight) {
+      console.warn('no flight selected')
+      return
+    }
+    const paymentToken = this.cookieService.get(SpreedlyService.PAYMENT_COOKIE)
+    if(paymentToken) {
+      console.log('we have a payment method')
+      this.spreedlyService.purchaseFlightThirdParty(paymentToken, this.flight.id)
+      return
+    }
+  }
+
   addNewCard(): void {
     this.spreedlyService.addCard(this.flight)
   }

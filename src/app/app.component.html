@@ -1,6 +1,72 @@
-<h1>{{title}}</h1>
-<nav>
+<!-- <h1>{{title}}</h1> -->
+<!-- <nav>
   <a routerLink="/flights">Flights</a>
-</nav>
-<router-outlet></router-outlet>
+</nav> -->
 <!-- <app-messages></app-messages> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Fixed Menu Example - Semantic</title>
+
+  <style type="text/css">
+  body {
+    background-color: #FFFFFF;
+  }
+  .ui.menu .item img.logo {
+    margin-right: 1.5em;
+  }
+  .main.container {
+    margin-top: 7em;
+  }
+  .wireframe {
+    margin-top: 2em;
+  }
+  .ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 5em 0em;
+  }
+  </style>
+
+</head>
+<body>
+
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="/" class="header item">
+        Angular Airlines
+      </a>
+      <a href="/flights" class="item">
+        <i class="plane icon" ></i>
+        Flights</a>
+      <div class="ui simple dropdown item">
+        Help <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="/docs">Docs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui main text container">
+    <!-- <h1 class="ui header">Semantic UI Fixed Template</h1> -->
+    <router-outlet></router-outlet>
+    <!-- <p>This is a basic fixed menu template using fixed size containers.</p>
+    <p>A text container is used for the main container, which is useful for single column layouts</p>
+    <img class="wireframe" src="assets/images/wireframe/media-paragraph.png">
+    <img class="wireframe" src="assets/images/wireframe/paragraph.png">
+    <img class="wireframe" src="assets/images/wireframe/paragraph.png">
+    <img class="wireframe" src="assets/images/wireframe/paragraph.png">
+    <img class="wireframe" src="assets/images/wireframe/paragraph.png">
+    <img class="wireframe" src="assets/images/wireframe/paragraph.png">
+    <img class="wireframe" src="assets/images/wireframe/paragraph.png"> -->
+  </div>
+</body>
+
+</html>

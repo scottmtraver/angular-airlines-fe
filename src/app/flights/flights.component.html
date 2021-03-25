@@ -1,16 +1,26 @@
-  <h2>My flights</h2>
-<!-- <ul class="flights">
-    <li *ngFor="let flight of flights" (click)="onSelect(flight)">
-    <span class="badge">{{flight.id}}</span> {{flight.source}}
-  </li>
-</ul> -->
+  <h2>All Flights</h2>
 
-<ul class="flights">
-    <li *ngFor="let flight of flights">
-      <a routerLink="/detail/{{flight.id}}">
-        <span class="badge">{{flight.id}}</span> {{flight.source}}
-      </a>
-    </li>
-  </ul>
-
-<!-- <app-flight-detail [flight]="selectedFlight"></app-flight-detail> -->
+<table class="ui single line table">
+  <thead>
+    <tr>
+      <th>Flight Number</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let flight of flights">
+      <td>{{ flight.id }}</td>
+      <td>{{ flight.source }}</td>
+      <td>{{ flight.dest }}</td>
+      <td>{{ flight.price | currency }}</td>
+      <td>
+        <a class="ui button" routerLink="/detail/{{flight.id}}">
+          Details
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

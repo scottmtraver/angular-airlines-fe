@@ -1,7 +1,30 @@
-<div *ngIf="flight">
-    <h2>{{flight.source | uppercase}} to {{flight.dest | uppercase}} Details</h2>
-    <div><span>id: </span>{{flight.id}}</div>
-    <label for="flight-name">Flight Price: ${{ flight.price }}</label>
-    <button (click)="purchaseFlight()">Quick Buy with card ending: XXXX</button>
-    <button (click)="addNewCard()">Add new payment method</button>
-</div>
+<div class="ui card" *ngIf="flight">
+    <div class="image">
+      <img src="https://images.unsplash.com/photo-1529074963764-98f45c47344b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YWVyb3BsYW5lfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80">
+    </div>
+    <div class="content">
+      <a class="header">Flight #{{ flight.id }}</a>
+      <div class="meta">
+        <span class="date">{{ flight.source }} - {{ flight.dest }}</span>
+      </div>
+      <div class="description">
+          This flight is for the low price of {{ flight.price | currency }}
+      </div>
+    </div>
+    <div class="content">
+        <div class="ui two buttons">
+      <!-- <button class="ui button" (click)="purchaseFlight()">
+        <i class="dollar sign icon"></i>
+        Buy
+      </button> -->
+      <button class="ui button" (click)="addNewCard()">
+        <i class="dollar sign icon"></i>
+        Buy
+      </button>
+      <button class="ui button" (click)="purchaseThirdParty()">
+        <i class="btc icon"></i>
+        Deal
+      </button>
+        </div>
+    </div>
+  </div>
