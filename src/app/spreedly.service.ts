@@ -13,6 +13,7 @@ export class SpreedlyService {
   static PAYMENT_COOKIE = 'PAYMENTCOOKIE'
   private purchaseUrl = 'http://airlinesapi:3000/purchase';  // URL to web api
   private passthroughUrl = 'http://airlinesapi:3000/passthrough';  // URL to web api
+  private transactionUrl = 'http://airlinesapi:3000/transactions';  // URL to web api
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -29,12 +30,23 @@ export class SpreedlyService {
     // @ts-ignore
     SpreedlyExpress.init("F2XV4gIvmoLo4VSOnyhAHFzLUgB", {
       "amount": `${flightInfo.price}`,
-      // "company_name": `${flightInfo.source}`
     });
 
     // @ts-ignore
     SpreedlyExpress.onPaymentMethod((token: any, paymentMethod: any) => {
-      this.cookieService.set(SpreedlyService.PAYMENT_COOKIE, token)
+      this.cookieService.set(
+        SpreedlyService.PAYMENT_COOKIE,
+        JSON.stringify({ token: token, expiring: paymentMethod.year }),
+        undefined,
+        '/',
+        undefined,
+        true,
+        'None'
+      );
+
+
+
+      window.location.reload()
       // SUBMIT TO BACKEND
     });
 
@@ -69,5 +81,9 @@ export class SpreedlyService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  getTransaction(): Observable<any[]> {
+    return this.http.get<any[]>(this.transactionUrl)
   }
 }

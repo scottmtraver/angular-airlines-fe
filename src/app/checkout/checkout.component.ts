@@ -6,17 +6,19 @@ import { Location } from '@angular/common';
 import { FlightService } from '../flight.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SpreedlyService } from '../spreedly.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
-  selector: 'app-flight-detail',
-  templateUrl: './flight-detail.component.html',
-  styleUrls: ['./flight-detail.component.less']
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.less']
 })
-export class FlightDetailComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
 
   @Input() flight?: Flight;
 
-  private existingPayment = ''
+  expiring$: Observable<any>
+  existingPaymentObj: any
 
   constructor(
     private route: ActivatedRoute,
@@ -24,13 +26,16 @@ export class FlightDetailComponent implements OnInit {
     private location: Location,
     private cookieService: CookieService,
     private spreedlyService: SpreedlyService
-  ) {}
+  ) {
+    this.expiring$ = of(null)
+  }
 
   ngOnInit(): void {
     this.getFlight();
     const cookieObj = this.cookieService.get(SpreedlyService.PAYMENT_COOKIE)
     if(cookieObj) {
-      this.existingPayment = JSON.parse(cookieObj).token
+      this.expiring$ = of(JSON.parse(cookieObj).expiring)
+      this.existingPaymentObj = JSON.parse(cookieObj)
     }
   }
   
@@ -40,15 +45,22 @@ export class FlightDetailComponent implements OnInit {
       .subscribe(flight => this.flight = flight);
   }
 
-  purchaseThirdParty(): void {
+  purchaseFlight(): void {
     if(!this.flight) {
       console.warn('no flight selected')
       return
     }
-    if(this.existingPayment) {
+    if(this.existingPaymentObj) {
       console.log('we have a payment method')
-      this.spreedlyService.purchaseFlightThirdParty(this.existingPayment, this.flight.id)
+      this.spreedlyService.purchaseFlight(this.existingPaymentObj.token, this.flight.id)
       return
     }
+
+    // add new card and cookie then purchase
+    this.spreedlyService.addCard(this.flight)
+  }
+
+  addNewCard(): void {
+    this.spreedlyService.addCard(this.flight)
   }
 }

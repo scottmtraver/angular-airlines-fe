@@ -1,0 +1,22 @@
+<h2>Transactions</h2>
+
+<table class="ui single line table">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Payment Method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{ transaction.created_at }}</td>
+        <td>{{ transaction.transaction_type }}</td>
+        <td>{{ transaction.state }}</td>
+        <td>
+        <span *ngIf="transaction.payment_method">{{ transaction.payment_method.number }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>

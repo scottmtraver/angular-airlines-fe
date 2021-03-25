@@ -1,0 +1,25 @@
+<div class="ui segment" *ngIf="flight">
+    <div class="content">
+        <a class="header">Flight #{{ flight.id }}</a>
+        <div>
+            <span class="date">{{ flight.source }} - {{ flight.dest }} For {{ flight.price | currency }}</span>
+        </div>
+        <div class="ui divider"></div>
+
+<!-- CC List If Exists... -->
+<div class="ui green segment" *ngIf="expiring$ | async as expiring">
+    <p>Card On File - Expiration {{ expiring }}</p>
+  </div>
+        <div class="ui divider"></div>
+    </div>
+    <div class="content">
+            <button class="ui button" (click)="purchaseFlight()">
+        <i class="dollar sign icon"></i>
+        Purchase
+      </button>
+            <button class="ui button" (click)="addNewCard()">
+                <i class="cc visa icon"></i>
+                Add New Card
+            </button>
+    </div>
+</div>

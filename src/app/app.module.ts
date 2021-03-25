@@ -11,13 +11,17 @@ import { MessagesComponent } from './messages/messages.component';
 import { CookieService } from 'ngx-cookie-service';
 
 import { HttpClientModule } from '@angular/common/http';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { PurchaseListComponent } from './purchase-list/purchase-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FlightsComponent,
     FlightDetailComponent,
-    MessagesComponent
+    MessagesComponent,
+    CheckoutComponent,
+    PurchaseListComponent
   ],
   imports: [
     BrowserModule,
