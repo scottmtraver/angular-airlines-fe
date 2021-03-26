@@ -9,6 +9,9 @@
 <!-- CC List If Exists... -->
 <div class="ui green segment" *ngIf="expiring$ | async as expiring">
     <p>Card On File - Expiration {{ expiring }}</p>
+    <input type="checkbox" [(ngModel)]="keepCC" (change)="toggle($event)"/>
+    <span>Retain Card Info</span>
+
   </div>
         <div class="ui divider"></div>
     </div>
@@ -19,7 +22,7 @@
       </button>
             <button class="ui button" (click)="addNewCard()">
                 <i class="cc visa icon"></i>
-                Add New Card
+                Add Card
             </button>
     </div>
 </div>

@@ -46,7 +46,6 @@ export class FlightDetailComponent implements OnInit {
       return
     }
     if(this.existingPayment) {
-      console.log('we have a payment method')
       this.spreedlyService.purchaseFlightThirdParty(this.existingPayment, this.flight.id)
       return
     }

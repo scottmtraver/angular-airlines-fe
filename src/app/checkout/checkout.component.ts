@@ -19,6 +19,7 @@ export class CheckoutComponent implements OnInit {
 
   expiring$: Observable<any>
   existingPaymentObj: any
+  keepCC: boolean = true
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +39,10 @@ export class CheckoutComponent implements OnInit {
       this.existingPaymentObj = JSON.parse(cookieObj)
     }
   }
+
+  toggle(e: any){
+    this.keepCC = e.target.checked;
+  }
   
   getFlight(): void {
     const id = Number(this.route.snapshot.paramMap.get('id')) || 1;
@@ -51,8 +56,7 @@ export class CheckoutComponent implements OnInit {
       return
     }
     if(this.existingPaymentObj) {
-      console.log('we have a payment method')
-      this.spreedlyService.purchaseFlight(this.existingPaymentObj.token, this.flight.id)
+      this.spreedlyService.purchaseFlight(this.existingPaymentObj.token, this.flight.id, this.keepCC)
       return
     }
 

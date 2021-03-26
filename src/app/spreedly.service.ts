@@ -58,14 +58,19 @@ export class SpreedlyService {
     this.messageService.add({ message: `Purchase ${data.success ? 'Succeeded' : 'Failed'}`, status: data.success })
   }
 
-  purchaseFlight(token: string, flightId: number, keepCC?: true) {
-    const response = this.http.post(this.purchaseUrl, { token: token, flightId: flightId }, this.httpOptions)
+  purchaseFlight(token: string, flightId: number, keepCC?: boolean) {
+    this.http.post(this.purchaseUrl, { token: token, flightId: flightId, keepCC: keepCC }, this.httpOptions)
       .pipe(
-        tap(d => { this.processResponse(d) }),
+        tap(d => { 
+          if(!keepCC) {
+            this.cookieService.delete(SpreedlyService.PAYMENT_COOKIE, '/')
+          }
+          this.processResponse(d)
+        }),
       ).subscribe()
   }
   purchaseFlightThirdParty(token: string, flightId: number) {
-    const response = this.http.post(this.passthroughUrl, { token: token, flightId: flightId }, this.httpOptions)
+    this.http.post(this.passthroughUrl, { token: token, flightId: flightId }, this.httpOptions)
       .pipe(
         tap(d => { this.processResponse(d) }),
       ).subscribe()
