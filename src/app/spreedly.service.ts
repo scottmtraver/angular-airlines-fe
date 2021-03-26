@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Flight } from './flight';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class SpreedlyService {
 
   constructor(
     private cookieService: CookieService,
+    private messageService: MessageService,
     private http: HttpClient,
   ) { }
 
@@ -44,8 +46,6 @@ export class SpreedlyService {
         'None'
       );
 
-
-
       window.location.reload()
       // SUBMIT TO BACKEND
     });
@@ -54,33 +54,21 @@ export class SpreedlyService {
     SpreedlyExpress.openView()
   }
 
-  purchaseFlight(token: string, flightId: number) {
+  private processResponse(data: any): void {
+    this.messageService.add({ message: `Purchase ${data.success ? 'Succeeded' : 'Failed'}`, status: data.success })
+  }
+
+  purchaseFlight(token: string, flightId: number, keepCC?: true) {
     const response = this.http.post(this.purchaseUrl, { token: token, flightId: flightId }, this.httpOptions)
       .pipe(
-        tap(_ => console.log('Purchased flighg')),
-        catchError(this.handleError<Flight>('purchaseFlight'))
+        tap(d => { this.processResponse(d) }),
       ).subscribe()
-    console.log('buying')
-
   }
   purchaseFlightThirdParty(token: string, flightId: number) {
     const response = this.http.post(this.passthroughUrl, { token: token, flightId: flightId }, this.httpOptions)
       .pipe(
-        tap(_ => console.log('Purchased flighg')),
-        catchError(this.handleError<Flight>('purchaseFlight'))
+        tap(d => { this.processResponse(d) }),
       ).subscribe()
-    console.log('buying')
-
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      console.error(error); // log to console instead
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
   }
 
   getTransaction(): Observable<any[]> {

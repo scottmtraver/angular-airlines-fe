@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let transaction of transactions">
+      <tr *ngFor="let transaction of transactions" [ngClass]="{ 'positive': transaction.state == 'succeeded', 'negative': transaction.state == 'failed' }">
         <td>{{ transaction.created_at }}</td>
         <td>{{ transaction.transaction_type }}</td>
         <td>{{ transaction.state }}</td>
