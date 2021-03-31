@@ -1,27 +1,21 @@
-# SpreedlyAirlines
+# Angular Airlines Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
+This project is to demonstrate some of the Spreedly API functionality. Works in tandem with https://github.com/scottmtraver/angular-airlines-be Angular Backend and uses Spreedly Express
+
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Install the required JS packages with `npm install`
 
-## Code scaffolding
+Update `src/app/spreedly.service.ts line 33` with your spreedly environment key (*improvement to be put in a build var)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run the development server with `ng serve` or `npm start`
 
-## Build
+## App Pages / Structure
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+The app is structured by routable components with a master navigation header for ease of use.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- List flights page (homepage)
+- Flight details Page - from here if you have a payment method you can use express checkout (which will purchase a flight through the passthrough api)
+- Flight checkout page - from here you can manage your card information and make a regular purchase (through the purchase api)
+- transactions - a listing page of recent spreedly transactions
